@@ -1,16 +1,16 @@
 # cards
 
-A server to respond to crawlers of Facebook, Twitter, etc. It's written using Flask.
+A server to respond Facebook's crawler, Twitter's crawler, etc. It's written using Flask.
 
 ## Why?
 
-When someone shares an ascribe URL on Facebook, Facebook sends its crawler visit that URL to get the Open Graph tags embedded in the page (e.g. title, description, image). It uses those values to automatically construct a page preview on Facebook.
+When someone shares an ascribe URL on Facebook, Facebook's crawler sends an HTTP request to that URL to get the Open Graph tags embedded in the page (e.g. title, description, image). It uses the values in those tags to automatically construct a page preview on Facebook.
 
 Similar things are done by Twitter and other sites.
 
 If you "view source" of an ascribe piece detail page, you'll see that there's not much HTML there. That's because we use JavaScript to render the full HTML on the client.
 
-Facebook, Twitter, and others don't do JavaScript rendering, so we can't provide the Open Graph (and other) tags in the JavaScript-rendered HTML. We have to provide those tags in some other way.
+Facebook, Twitter, and others don't render JavaScript, so we can't provide the Open Graph (and other) tags in the JavaScript-rendered HTML. We have to provide those tags in some other way.
 
 ## Our Solution: cards
 
