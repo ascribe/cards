@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    {% block head %}{% endblock %}
+{% block head %}{% endblock %}
   </head>
   <body>
-    {% if include_body %}
+{% if include_body %}
     <img src="{{img_url}}" />
     <h1><a href="https://www.ascribe.io/app/{{endpoint}}/{{item_id}}">{{title}}</a></h1>
     <h2>by {{author}}</h2>
@@ -13,6 +13,6 @@
     <footer>
       <p><a href="https://www.ascribe.io/">ascribe</a></p>
     </footer>
-    {% endif %}
+{% endif %}
   </body>
 </html>

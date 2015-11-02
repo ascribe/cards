@@ -1,6 +1,6 @@
 # cards
 
-A server to respond Facebook's crawler, Twitter's crawler, etc. It's written using Flask.
+A server to respond to Facebook's crawler, Twitter's crawler, etc. It's written using Flask.
 
 ## Why?
 

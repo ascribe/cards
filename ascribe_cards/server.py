@@ -2,7 +2,7 @@ import re
 from lru import lru_cache_function
 
 import requests
-from flask import Flask, abort, render_template
+from flask import Flask, abort, render_template, url_for
 
 import dateutil.parser
 
@@ -115,16 +115,19 @@ def render(endpoint, item_id):
         # or make up values.
         # The result is a video that won't play embedded in Facebook.
         #
-        # Ideas:
+        # Question 1: How to *get* the video height and width?
+        #
         # * Amazon S3 doesn't (currently) know the height or width of the
         #   videos we have stored there.
-        # * Zencoder knows the height and width of the output video, and we
-        #   can get those values from Zencoder's API.
+        # * Zencoder knows the height and width of the output video, so
+        #   we can just ask Zencoder for those details. See:
+        #   https://app.zencoder.com/docs/api/jobs/show
         #
-        # * Where to store video height and width, going forward?
-        # - In our Postgres database? Available via the API somehow?
-        # - In Amazon S3, as "metadata" associated with each video file?
-        # - In the saved video file name (prepended or appended)?
+        # Question 2: Where to store video height and width, going forward?
+        #
+        # * In our Postgres database? Available via the ascribe API somehow?
+        # * In Amazon S3, as "metadata" associated with each video file?
+        # * In the saved video file name (prepended or appended)?
         #   Note that we *already* append something to the end of filenames, in
         #   the case of duplicate filenames, so be careful!
 
@@ -135,9 +138,13 @@ def render(endpoint, item_id):
     """
 
     full_html = render_template('final1.html', **context)
+    # Remove all HTML comments
+    full_html = re.sub("<!--.*?-->", "", full_html)
+    # Remove all blank lines
+    tmp = [s for s in full_html.splitlines(True) if s.strip("\r\n")]
+    full_html = "".join(tmp)
 
-    # Remove all the HTML comments and return that
-    return re.sub("<!--.*?-->", "", full_html)
+    return full_html
 
 
 @app.route('/editions/<bitcoin_hash>')
@@ -159,3 +166,6 @@ def render_piece_card(piece_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    # From http://flask.pocoo.org/docs/0.10/patterns/favicon/
+    app.add_url_rule('/favicon.ico',
+                     redirect_to=url_for('static', filename='favicon.ico'))
