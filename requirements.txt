@@ -1,0 +1,5 @@
+py-lru-cache==0.1.2
+requests==2.2.1
+flask==0.10
+gunicorn==18.0
+python-dateutil==2.4.2

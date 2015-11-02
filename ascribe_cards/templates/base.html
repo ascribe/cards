@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {% if include_body %}
+    <img src="{{img_url}}" />
+    <h1><a href="https://www.ascribe.io/app/{{endpoint}}/{{item_id}}">{{title}}</a></h1>
+    <h2>by {{author}}</h2>
+    <p>{{description}}</p>
+    <footer>
+      <p><a href="https://www.ascribe.io/">ascribe</a></p>
+    </footer>
+    {% endif %}
+  </body>
+</html>
