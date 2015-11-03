@@ -165,7 +165,5 @@ def render_piece_card(piece_id):
 
 
 if __name__ == '__main__':
+    # Note: In production, __name__ != '__main__'
     app.run(debug=True)
-    # From http://flask.pocoo.org/docs/0.10/patterns/favicon/
-    app.add_url_rule('/favicon.ico',
-                     redirect_to=url_for('static', filename='favicon.ico'))
