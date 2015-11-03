@@ -37,16 +37,38 @@ def render(endpoint, item_id):
 
     # Contruct the description string
 
-    user_registered = item_metadata['user_registered']
-    desc1 = 'Registered by ascribe user {} '.format(user_registered)
+    # num_editions always exists, it's just -1 when a piece has no editions
+    num_editions = item_metadata['num_editions']
+
+    if called_editions_endpoint:
+        desc = 'Edition {}/{}, '.format(item_metadata['edition_number'],
+                                           num_editions)
+    else:  # called pieces endpoint
+        if int(num_editions) == -1:  # the piece has no editions
+            desc = ''
+        else:  # the piece has editions
+            desc = '{} Editions, '.format(num_editions)
+
+    year_created = item_metadata['date_created'][:4]
+
+    desc += '{}, '.format(year_created)
 
     dt_registered_str = item_metadata['datetime_registered']
     # is an ISO 8601 string
     dt_registered = dateutil.parser.parse(dt_registered_str)
     # is a datetime.datetime object
-    desc2 = 'on {:%B %-d, %Y} (UTC).'.format(dt_registered)
+    # which *should* have time zone already set to UTC
+    time_str = '{:%-I:%M %p}'.format(dt_registered).lower()
+    # looks like '9:42 pm'
+    timezone = '{:%Z}'.format(dt_registered)
+    # should be 'UTC' but will be the actual
+    # time zone of dt_registered if it is not UTC
+    date_str = '{:%B %-d, %Y}'.format(dt_registered)
+    # looks like 'October 20, 2015'
+    dt_str = '{} {} on {}'.format(time_str, timezone, date_str)
 
-    description = desc1 + desc2
+    desc += 'securely registered at {}. '.format(dt_str)
+    desc += 'ascribe ID: {}'.format(item_metadata['bitcoin_id'])
 
     # Figure out what to send as the image URL
 
@@ -82,7 +104,7 @@ def render(endpoint, item_id):
         'item_id': item_id,
         'title': item_metadata['title'],
         'author': item_metadata['artist_name'],
-        'description': description,
+        'description': desc,
         'img_url': img_url,
         'include_body': True,
         # etc.
