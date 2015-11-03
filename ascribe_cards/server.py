@@ -2,7 +2,7 @@ import re
 from lru import lru_cache_function
 
 import requests
-from flask import Flask, abort, render_template, url_for
+from flask import Flask, abort, render_template
 
 import dateutil.parser
 
@@ -14,6 +14,12 @@ PIECES_ENDPOINT = 'http://www.ascribe.io/api/pieces/{}/'
 
 @lru_cache_function(max_size=1024, expiration=60 * 60)
 def render(endpoint, item_id):
+
+    # Examples of how to log errors, warnings, and debug info
+    # app.logger.debug('A value for debugging')
+    # app.logger.warning('A warning occurred (%d apples)', 42)
+    # app.logger.error('An error occurred')
+
     if endpoint == 'editions':
         called_editions_endpoint = True
         endpoint_to_call = EDITIONS_ENDPOINT
@@ -21,12 +27,18 @@ def render(endpoint, item_id):
         called_editions_endpoint = False
         endpoint_to_call = PIECES_ENDPOINT
     else:
+        app.logger.error("render() function was called with first " +
+                         "argument not 'editions' or 'pieces'.")
         return
 
     # response is a dict representing the body of the HTTP response
     response = requests.get(endpoint_to_call.format(item_id)).json()
 
     if not response['success']:
+        app.logger.debug("In response to HTTP GET " +
+                         "/{}/{} , ".format(endpoint, item_id) +
+                         "'success' == " +
+                         "{}".format(response['success']))
         return
 
     # item_metadata is a dict with metadata about the edition or piece
@@ -42,7 +54,7 @@ def render(endpoint, item_id):
 
     if called_editions_endpoint:
         desc = 'Edition {}/{}, '.format(item_metadata['edition_number'],
-                                           num_editions)
+                                        num_editions)
     else:  # called pieces endpoint
         if int(num_editions) == -1:  # the piece has no editions
             desc = ''
