@@ -35,6 +35,8 @@ def render(endpoint, item_id):
     else:  # called pieces endpoint
         item_metadata = response['piece']
 
+    # Contruct the description string
+
     user_registered = item_metadata['user_registered']
     desc1 = 'Registered by ascribe user {} '.format(user_registered)
 
@@ -46,22 +48,28 @@ def render(endpoint, item_id):
 
     description = desc1 + desc2
 
-    img_url = None
+    # Figure out what to send as the image URL
 
-    if 'thumbnail' in item_metadata:
-        if 'url_safe' in item_metadata['thumbnail']:
-            img_url = item_metadata['thumbnail']['url_safe']
-            # At the time of writing this code, this thumbnail was "300 x 300"
+    mimetype = item_metadata['digital_work']['mime']
+    # Potential values for mimetype (coming from ascribe, in item_metadata):
+    # 'image', 'video', 'audio', others?
 
-        if 'thumbnail_sizes' in item_metadata['thumbnail']:
-            tsizes = item_metadata['thumbnail']['thumbnail_sizes']
-            if '600x600' in tsizes:
-                img_url = tsizes['600x600']
+    # Set the image URL to the fallback image for starters
+    img_url = 'https://s3-us-west-2.amazonaws.com/' + \
+              'ascribe0/public/ascribe_circled_A_315x315.jpg'
 
-    if img_url is None:
-        # use a fall-back image URL
-        img_url = 'https://s3-us-west-2.amazonaws.com/' + \
-                  'ascribe0/public/ascribe_circled_A_315x315.jpg'
+    # but in some cases, replace it with a thumbnail image
+    if mimetype in ['image', 'video']:
+        if 'thumbnail' in item_metadata:
+            if 'url_safe' in item_metadata['thumbnail']:
+                img_url = item_metadata['thumbnail']['url_safe']
+                # At the time of writing this code,
+                # this thumbnail was "300 x 300" (bounding box)
+
+            if 'thumbnail_sizes' in item_metadata['thumbnail']:
+                tsizes = item_metadata['thumbnail']['thumbnail_sizes']
+                if (tsizes is not None) and ('600x600' in tsizes):
+                    img_url = tsizes['600x600']
 
     # Future TODO optimization:
     # Determine the image height and width and populate meta tags such as
@@ -90,9 +98,6 @@ def render(endpoint, item_id):
     elif img_url[-4:] == '.png':
         context.update({'img_type': 'image/png'})
 
-    # mimetype = item_metadata['digital_work']['mime']
-    # Potential values for mimetype (coming from ascribe, in item_metadata):
-    # 'image', 'video', 'audio', others?
 
     """
     # For now, we don't include og:video tags
