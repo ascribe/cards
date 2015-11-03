@@ -61,7 +61,7 @@ def render(endpoint, item_id):
     if img_url is None:
         # use a fall-back image URL
         img_url = 'https://s3-us-west-2.amazonaws.com/' + \
-                  'ascribe0/public/ascribe_file_icon_315x315.jpg'
+                  'ascribe0/public/ascribe_circled_A_315x315.jpg'
 
     # Future TODO optimization:
     # Determine the image height and width and populate meta tags such as
