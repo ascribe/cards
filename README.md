@@ -18,7 +18,7 @@ Facebook, Twitter, and others don't render JavaScript, so we can't provide the O
 
 If **giano** sees a request for `/app/pieces/<piece_id>`, it sends `/pieces/<piece_id>` to **cards**.
 
-If **giano** sees a request for `/app/edition/<bitcoin_id>`, it sends `/edition/<bitcoin_id>` to **cards**.
+If **giano** sees a request for `/app/editions/<bitcoin_id>`, it sends `/editions/<bitcoin_id>` to **cards**.
 
 **cards** uses the ascribe API to get the information about the piece or edition in question. It uses that information to construct a bare-bones HTML file containing just the tags wanted by Facebook et al. It sends that file as the response.
 
