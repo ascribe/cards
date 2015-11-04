@@ -8,10 +8,10 @@
 
     <meta charset="utf-8">
     <title>{{title}}</title>
-    <meta name="author" content="{{author}}" />
-    <meta name="description" content="{{description}}" />
+    <meta name="author" content="{{author}}">
+    <meta name="description" content="{{description}}">
 <!-- Use the same 16x16 favicon as the main ascribe.io web app -->
-    <link rel="icon" sizes="16x16" type="image/png" href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/www/favicon-16x16.png"></link>
+    <link rel="icon" sizes="16x16" type="image/png" href="https://s3-us-west-2.amazonaws.com/ascribe0/whitelabel/www/favicon-16x16.png">
 
 {% endblock %}
 
@@ -20,59 +20,75 @@
 <!-- Key Open Graph tags used by Facebook: https://developers.facebook.com/docs/sharing/webmasters#markup -->
 
 <!-- og:title is the title of your article without any branding such as your site name. -->
-    <meta property="og:title" content="{{title}}" />
+    <meta property="og:title" content="{{title}}">
 
 <!-- Note: I didn't include the article:author tag because 1) it's mainly for ARTICLE authors and 2) the content value is expected to be an URL, such as the URL of the author's Facebook profile, but ascribe doesn't know that. -Troy -->
 
 <!-- og:description is a brief description of the content, usually between 2 and 4 sentences. This will displayed below the title of the post on Facebook. -->
-    <meta property="og:description" content="{{description}}" />
+    <meta property="og:description" content="{{description}}">
 
 <!-- og:url is the canonical URL for your page. This should be the undecorated URL, without session variables, user identifying parameters, or counters. Likes and Shares for this URL will aggregate at this URL. -->
 <!-- Example expected full ascribe URLs: (but we won't be getting the first part)    -->
 <!-- Pieces:   https://www.ascribe.io/app/pieces/13718    -->
 <!-- Editions: https://www.ascribe.io/app/editions/19nQkWyKs8M4LenXGGFvLrfnG4jjxjEgQr   -->
-    <meta property="og:url" content="https://www.ascribe.io/app/{{endpoint}}/{{item_id}}" />
+    <meta property="og:url" content="https://www.ascribe.io/app/{{endpoint}}/{{item_id}}">
 
 <!-- og:site_name is the name of your website (such as IMDb, not imdb.com). -->
-    <meta property="og:site_name" content="ascribe" />
+    <meta property="og:site_name" content="ascribe">
 
 <!-- og:image is the URL of the image that appears when someone shares the content to Facebook. To update an image after it's been published, use a new URL for the new image. Images are cached based on the URL and won't be updated unless the URL changes. -->
-    <meta property="og:image" content="{{img_url}}" />
+    <meta property="og:image" content="{{img_url}}">
 
 <!-- og:image:secure_url is the https:// URL for the image -->
-    <meta property="og:image:secure_url" content="{{img_url}}" />
+    <meta property="og:image:secure_url" content="{{img_url}}">
 
 {% if img_type %}
 <!-- og:image:type is the MIME type of the image. Facebook only supports image/jpeg, image/gif and image/png -->
-    <meta property="og:image:type" content="{{img_type}}" />
+    <meta property="og:image:type" content="{{img_type}}">
 {% endif %}
 
 <!-- fb:app_id is ascribe's Facebook app ID. -->
-    <meta property="fb:app_id" content="420813844732240" />
+    <meta property="fb:app_id" content="420813844732240">
 
 <!-- og:type is the type of media of your content. This tag impacts how your content shows up in [Facebook's] News Feed. If you don't specify a type,the default is website. Each URL should be a single object, so multiple og:type values are not possible. Find the full list of object types in the Facebook Object Types Reference. -->
 
 <!-- In principle, the og:type should change depending on the type of item. Unfortunately, the list of available types is very limited. Moreover, ascribe doesn't really have enough information to determine the type. It's tempting to leave the type unspecified, but unfortunately, the default is "website", which is probably wrong for most things on ascribe. Therefore we just set the type to "product", which is general enough that it's either correct or only vaguely wrong. -->
 
-    <meta property="og:type" content="product" />
+    <meta property="og:type" content="product">
 
 {% if video_url %}
 <!-- VIDEO (for videos only) -->
 
 <!-- og:video is the URL for the video. If you want the video to play in-line in News Feed, you should use the https:// URL if possible. -->
-    <meta property="og:video" content="{{video_url}}" />
+    <meta property="og:video" content="{{video_url}}">
 
 <!-- og:video:secure_url is the secure URL for the video. Include this even if you set the secure URL in og:video. -->
-    <meta property="og:video:secure_url" content="{{video_url}}" />
+    <meta property="og:video:secure_url" content="{{video_url}}">
 
 <!-- og:video:type is the MIME type of the video. Either application/x-shockwave-flash or video/mp4. -->
-    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:type" content="video/mp4">
 
 <!-- og:video:width is the width of video in pixels. This property is required for videos. -->
-    <meta property="og:video:width" content="{{video_width}}" />
+    <meta property="og:video:width" content="{{video_width}}">
 
 <!-- og:video:height is the height of video in pixels. This property is required for videos. -->
-    <meta property="og:video:height" content="{{video_height}}" />
+    <meta property="og:video:height" content="{{video_height}}">
 {% endif %}
+
+{% endblock %}
+
+{% block twitter_tags %}
+<!-- Official Twitter Cards documentation at: -->
+<!-- https://dev.twitter.com/cards/overview -->
+
+<!-- twitter:site is the @username for the website used in the card footer. -->
+    <meta name="twitter:site" content="ascribeIO">
+
+<!-- twitter:creator is the @username for the content creator / author but ascribe doesn't know that. -->
+
+<!-- twitter:card is the Twitter Card type. -->
+    <meta name="twitter:card" content="summary">
+
+<!-- We don't have to send the page URL, title, description, or image URL in special Twitter tags because Twitter will fall back to getting that information from the Open Graph tags. --> 
 
 {% endblock %}

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html prefix="og: http://ogp.me/ns#">
   <head>
 {% block standard_tags %}{% endblock %}  
 {% block open_graph_tags %}{% endblock %}
@@ -7,7 +7,7 @@
   </head>
   <body>
 {% if include_body %}
-    <img src="{{img_url}}" />
+    <img src="{{img_url}}" alt="An image associated with {{title}} by {{author}}"/>
     <h1><a href="https://www.ascribe.io/app/{{endpoint}}/{{item_id}}">{{title}}</a></h1>
     <h2>by {{author}}</h2>
     <p>{{description}}</p>
