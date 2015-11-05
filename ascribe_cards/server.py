@@ -2,7 +2,7 @@ import re
 from lru import lru_cache_function
 
 import requests
-from flask import Flask, abort, render_template
+from flask import Flask, abort, render_template, request
 
 import dateutil.parser
 
@@ -104,6 +104,15 @@ def render(endpoint, item_id):
                 tsizes = item_metadata['thumbnail']['thumbnail_sizes']
                 if (tsizes is not None) and ('600x600' in tsizes):
                     img_url = tsizes['600x600']
+
+        else:  # not an image or video, so there is no thumbnail image
+            user_agent = request.headers.get('User-Agent').lower()
+            if user_agent[:7] == 'twitter':
+                # then send no image URLs, to conform to Twitter guidelines
+                # "You should not use a generic image such as your website
+                # logo, author photo, or other image that spans
+                # multiple pages."
+                img_url = None
 
     # Future TODO optimization:
     # Determine the image height and width and populate meta tags such as

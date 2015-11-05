@@ -36,6 +36,7 @@
 <!-- og:site_name is the name of your website (such as IMDb, not imdb.com). -->
     <meta property="og:site_name" content="ascribe">
 
+{% if img_url %}
 <!-- og:image is the URL of the image that appears when someone shares the content to Facebook. To update an image after it's been published, use a new URL for the new image. Images are cached based on the URL and won't be updated unless the URL changes. -->
     <meta property="og:image" content="{{img_url}}">
 
@@ -45,6 +46,7 @@
 {% if img_type %}
 <!-- og:image:type is the MIME type of the image. Facebook only supports image/jpeg, image/gif and image/png -->
     <meta property="og:image:type" content="{{img_type}}">
+{% endif %}
 {% endif %}
 
 <!-- fb:app_id is ascribe's Facebook app ID. -->
