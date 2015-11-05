@@ -22,4 +22,13 @@ If **giano** sees a request for `/app/editions/<bitcoin_id>`, it sends `/edition
 
 **cards** uses the ascribe API to get the information about the piece or edition in question. It uses that information to construct a bare-bones HTML file containing just the tags wanted by Facebook et al. It sends that file as the response.
 
+## Possible Future Optimizations
+
+* Once the ascribe REST API makes the height and width of videos availble, send all og:video tags, so that Facebook can play videos embedded in the Facebook timeline. There is a JIRA issue to make the necessary changes to the ascribe REST API: [AD-1284](https://ascribe.atlassian.net/browse/AD-1284)
+
+* If we ever come to know the creator/artist/author Facebook Profile URL, then we could send that in an article:author tag.
+
+* If we ever come to know the creator/artist/author Twitter @UserName, then we could send that in an twitter:creator tag.
+
+* Support for the Twitter Player Card type (for videos and audio)? May not be so easy, and it may make the description disappear from the Twitter timeline, which may not be such a good idea.
 
