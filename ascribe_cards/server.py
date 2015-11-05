@@ -105,14 +105,15 @@ def render(endpoint, item_id):
                 if (tsizes is not None) and ('600x600' in tsizes):
                     img_url = tsizes['600x600']
 
-        else:  # not an image or video, so there is no thumbnail image
-            user_agent = request.headers.get('User-Agent').lower()
-            if user_agent[:7] == 'twitter':
-                # then send no image URLs, to conform to Twitter guidelines
-                # "You should not use a generic image such as your website
-                # logo, author photo, or other image that spans
-                # multiple pages."
-                img_url = None
+    else:  # not an image or video, so there is no thumbnail image
+        user_agent = request.headers.get('User-Agent').lower()
+        # app.logger.debug('user_agent = {}'.format(user_agent))
+        if user_agent[:7] == 'twitter':
+            # then send no image URLs, to conform to Twitter guidelines
+            # "You should not use a generic image such as your website
+            # logo, author photo, or other image that spans
+            # multiple pages."
+            img_url = None
 
     # Future TODO optimization:
     # Determine the image height and width and populate meta tags such as
@@ -134,13 +135,13 @@ def render(endpoint, item_id):
     # Determine if img_url points to a jpeg, gif, png, or other.
     # In the case of other, send no image MIME type info.
     # (Facebook only supports image/jpeg, image/gif and image/png )
-    if img_url[-4:] == '.jpg' or img_url[-5:] == '.jpeg':
-        context.update({'img_type': 'image/jpeg'})
-    elif img_url[-4:] == '.gif':
-        context.update({'img_type': 'image/gif'})
-    elif img_url[-4:] == '.png':
-        context.update({'img_type': 'image/png'})
-
+    if img_url is not None:
+        if img_url[-4:] == '.jpg' or img_url[-5:] == '.jpeg':
+            context.update({'img_type': 'image/jpeg'})
+        elif img_url[-4:] == '.gif':
+            context.update({'img_type': 'image/gif'})
+        elif img_url[-4:] == '.png':
+            context.update({'img_type': 'image/png'})
 
     """
     # For now, we don't include og:video tags
