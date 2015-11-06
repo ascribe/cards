@@ -14,11 +14,12 @@ Facebook, Twitter, and others don't render JavaScript, so we can't provide the O
 
 ## Our Solution: cards
 
-**giano** checks the User Agent and if it's Facebook's crawler, Twitter's crawler, or similar, then it routes the request to **cards**.
+**giano** gets all incoming HTTP requests to ascribe.io. If:
 
-If **giano** sees a request for `/app/pieces/<piece_id>`, it sends `/pieces/<piece_id>` to **cards**.
+* the User Agent is Facebook's crawler or Twitter's crawler, and
+* the request is for `/app/pieces/<piece_id>` or `/app/editions/<bitcoin_id>`
 
-If **giano** sees a request for `/app/editions/<bitcoin_id>`, it sends `/editions/<bitcoin_id>` to **cards**.
+then **giano** routes the request to **cards**.
 
 **cards** uses the ascribe API to get the information about the piece or edition in question. It uses that information to construct a bare-bones HTML file containing just the tags wanted by Facebook et al. It sends that file as the response.
 
