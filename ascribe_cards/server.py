@@ -196,7 +196,7 @@ def render(endpoint, item_id):
     return full_html
 
 
-@app.route('/editions/<bitcoin_hash>')
+@app.route('/app/editions/<bitcoin_hash>')
 def render_edition_card(bitcoin_hash):
     page = render('editions', bitcoin_hash)
     if not page:
@@ -205,7 +205,7 @@ def render_edition_card(bitcoin_hash):
 
 
 # The piece_id will be an integer like 1383
-@app.route('/pieces/<int:piece_id>')
+@app.route('/app/pieces/<int:piece_id>')
 def render_piece_card(piece_id):
     page = render('pieces', piece_id)
     if not page:
