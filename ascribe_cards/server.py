@@ -20,9 +20,13 @@ def render(endpoint, item_id):
     # app.logger.warning('A warning occurred (%d apples)', 42)
     # app.logger.error('An error occurred')
 
+    # Check what user agent is calling
+
     user_agent = request.headers.get('User-Agent')
     app.logger.debug('User-Agent = {}'.format(user_agent))
     is_twitter = (user_agent[:7].lower() == 'twitter')
+
+    # Check the endpoint that was called
 
     if endpoint == 'editions':
         called_editions_endpoint = True
@@ -92,11 +96,6 @@ def render(endpoint, item_id):
 
     desc += 'securely registered at {}. '.format(dt_str)
     desc += 'ascribe ID: {}'.format(item_metadata['bitcoin_id'])
-
-    if is_twitter:
-        desc += ' :)-T'
-    else:
-        desc += ' :)-F'
 
     # Figure out what to send as the image URL
 
