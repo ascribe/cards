@@ -107,7 +107,7 @@ def render(endpoint, item_id):
 
     else:  # not an image or video, so there is no thumbnail image
         user_agent = request.headers.get('User-Agent').lower()
-        # app.logger.debug('user_agent = {}'.format(user_agent))
+        app.logger.debug('user_agent = {}'.format(user_agent))
         if user_agent[:7] == 'twitter':
             # then send no image URLs, to conform to Twitter guidelines
             # "You should not use a generic image such as your website
