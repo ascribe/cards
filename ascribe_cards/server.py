@@ -93,6 +93,11 @@ def render(endpoint, item_id):
     desc += 'securely registered at {}. '.format(dt_str)
     desc += 'ascribe ID: {}'.format(item_metadata['bitcoin_id'])
 
+    if is_twitter:
+        desc += ' :)-T'
+    else:
+        desc += ' :)-F'
+
     # Figure out what to send as the image URL
 
     mimetype = item_metadata['digital_work']['mime']
