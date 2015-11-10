@@ -12,7 +12,7 @@ EDITIONS_ENDPOINT = 'http://www.ascribe.io/api/editions/{}/'
 PIECES_ENDPOINT = 'http://www.ascribe.io/api/pieces/{}/'
 
 
-@lru_cache_function(max_size=1024, expiration=60 * 60)
+#@lru_cache_function(max_size=1024, expiration=60 * 60)
 def render(endpoint, item_id):
 
     # Examples of how to log errors, warnings, and debug info
@@ -20,12 +20,11 @@ def render(endpoint, item_id):
     # app.logger.warning('A warning occurred (%d apples)', 42)
     # app.logger.error('An error occurred')
 
-    # Check the User-Agent
+    # Check the User-Agent string
 
-    user_agent = request.headers.get('User-Agent')
-    app.logger.debug('User-Agent = {}'.format(user_agent))
-    user_agent_lc = user_agent.lower()
-    is_twitter = (user_agent_lc[:7] == 'twitter')
+    user_agent_string = request.headers.get('User-Agent')
+    app.logger.debug('User-Agent string = {}'.format(user_agent_string))
+    is_twitter = ("twitter" in user_agent_string.lower())
 
     # Check the endpoint that was called
 
