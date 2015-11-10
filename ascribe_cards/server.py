@@ -56,9 +56,9 @@ def render(endpoint, item_id):
     desc = ''
 
     if is_twitter:
-        # then add the artist name to the description, since
-        # Twitter doesn't use the meta author tag.
         desc += "by {}. ".format(item_metadata['artist_name'])
+        # i.e. add the artist name to the description, since
+        # Twitter doesn't use the meta author tag.
 
     # num_editions always exists, it's just -1 when a piece has no editions
     num_editions = item_metadata['num_editions']
@@ -118,11 +118,11 @@ def render(endpoint, item_id):
 
     else:  # not an image or video, so there is no thumbnail image
         if is_twitter:
-            # then send no image URLs, to conform to Twitter guidelines
+            img_url = None
+            # i.e. send no image URLs, to conform to Twitter guidelines
             # "You should not use a generic image such as your website
             # logo, author photo, or other image that spans
             # multiple pages."
-            img_url = None
 
     # Future TODO optimization:
     # Determine the image height and width and populate meta tags such as
