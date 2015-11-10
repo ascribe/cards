@@ -1,5 +1,5 @@
 import re
-from lru import lru_cache_function
+# from lru import lru_cache_function
 
 import requests
 from flask import Flask, abort, render_template, request
@@ -11,8 +11,12 @@ app = Flask(__name__)
 EDITIONS_ENDPOINT = 'http://www.ascribe.io/api/editions/{}/'
 PIECES_ENDPOINT = 'http://www.ascribe.io/api/pieces/{}/'
 
+# I was using lru_cache_function at first, but it caused a problem:
+# The User-Agent string would get stuck on whichever crawler called
+# it first (for the lifetime of the cache)!
+# I stopped using lru_cache_function().
 
-#@lru_cache_function(max_size=1024, expiration=60 * 60)
+# @lru_cache_function(max_size=1024, expiration=60 * 60)
 def render(endpoint, item_id):
 
     # Examples of how to log errors, warnings, and debug info
