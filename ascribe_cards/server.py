@@ -20,6 +20,10 @@ def render(endpoint, item_id):
     # app.logger.warning('A warning occurred (%d apples)', 42)
     # app.logger.error('An error occurred')
 
+    user_agent = request.headers.get('User-Agent')
+    app.logger.debug('User-Agent = {}'.format(user_agent))
+    is_twitter = (user_agent[:7].lower() == 'twitter')
+
     if endpoint == 'editions':
         called_editions_endpoint = True
         endpoint_to_call = EDITIONS_ENDPOINT
@@ -49,17 +53,24 @@ def render(endpoint, item_id):
 
     # Contruct the description string
 
+    desc = ''
+
+    if is_twitter:
+        # then add the artist name to the description, since
+        # Twitter doesn't use the meta author tag.
+        desc += "by {}. ".format(item_metadata['artist_name'])
+
     # num_editions always exists, it's just -1 when a piece has no editions
     num_editions = item_metadata['num_editions']
 
     if called_editions_endpoint:
-        desc = 'Edition {}/{}, '.format(item_metadata['edition_number'],
-                                        num_editions)
+        desc += 'Edition {}/{}, '.format(item_metadata['edition_number'],
+                                         num_editions)
     else:  # called pieces endpoint
         if int(num_editions) == -1:  # the piece has no editions
-            desc = ''
+            desc += ''
         else:  # the piece has editions
-            desc = '{} Editions, '.format(num_editions)
+            desc += '{} Editions, '.format(num_editions)
 
     year_created = item_metadata['date_created'][:4]
 
@@ -106,9 +117,7 @@ def render(endpoint, item_id):
                     img_url = tsizes['600x600']
 
     else:  # not an image or video, so there is no thumbnail image
-        user_agent = request.headers.get('User-Agent').lower()
-        app.logger.debug('user_agent = {}'.format(user_agent))
-        if user_agent[:7] == 'twitter':
+        if is_twitter:
             # then send no image URLs, to conform to Twitter guidelines
             # "You should not use a generic image such as your website
             # logo, author photo, or other image that spans
