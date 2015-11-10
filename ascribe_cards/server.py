@@ -196,18 +196,15 @@ def render(endpoint, item_id):
     return full_html
 
 
-@app.route('/app/editions/<bitcoin_hash>')
-def render_edition_card(bitcoin_hash):
-    page = render('editions', bitcoin_hash)
-    if not page:
+@app.route('/app/<endpoint>/<item_id>')
+def render_card(endpoint, item_id):
+    # endpoint should be 'pieces' or 'editions'
+    # item_id should be an integer or a hash
+    if endpoint not in ['pieces', 'editions']:
+        app.logger.error("cards can't handle /app/{}/{}".format(endpoint,
+                         item_id))
         abort(404)
-    return page
-
-
-# The piece_id will be an integer like 1383
-@app.route('/app/pieces/<int:piece_id>')
-def render_piece_card(piece_id):
-    page = render('pieces', piece_id)
+    page = render(endpoint, item_id)
     if not page:
         abort(404)
     return page
