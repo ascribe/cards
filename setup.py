@@ -10,4 +10,8 @@ setup(
     author='Troy McConaghy',
     author_email='troy@ascribe.io',
     packages=['ascribe_cards'],
+    license='LGPLv3',
+    classifiers=[
+        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
+    ],
 )
